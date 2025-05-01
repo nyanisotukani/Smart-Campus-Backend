@@ -1,23 +1,46 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const cors = require('cors');
-
-const authRoutes = require('./routes/auth');
-
-dotenv.config();
+const morgan = require('morgan')
+const bodyParser = require('body-parser')
+const connectDB = require('./config/db')
+const authRoutes = require('./routes/authRoutes')
+const adminRoutes = require('./routes/adminRoutes')
+const maintenanceRoutes = require('./routes/maintenanceRoutes')
+const bookingRoutes = require('./routes/bookingRoutes')
+const announcementRoutes = require('./routes/announcementRoutes')
+require('dotenv').config()
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+connectDB()
 
-app.use('/api', authRoutes);
+app.use(cors())
+app.use(bodyParser.json())
+app.use(morgan('dev'))
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log("MongoDB Connected");
-    app.listen(5000, () => console.log('Server running on port 5000'));
-}).catch(err => console.log(err));
+app.get('/', (req, res) => {
+    res.send('<h1>Smart Campus API is running</h1>')
+})
+
+//Auth Routes
+app.use('/api/auth', authRoutes);
+
+//Admin routes
+app.use('/api/admin', adminRoutes)
+
+//Maintenance Routes
+app.use('/api/maintenance', maintenanceRoutes);
+
+
+//Booking Routes
+app.use('/api/booking', bookingRoutes)
+
+
+//Announcement Routes
+
+app.use('/api/announcement', announcementRoutes)
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on ${PORT}`)
+})
