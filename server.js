@@ -8,6 +8,7 @@ const adminRoutes = require('./routes/adminRoutes')
 const maintenanceRoutes = require('./routes/maintenanceRoutes')
 const bookingRoutes = require('./routes/bookingRoutes')
 const announcementRoutes = require('./routes/announcementRoutes')
+const timetableRoutes = require('./routes/timetableRoutes')
 require('dotenv').config()
 
 const app = express();
@@ -40,6 +41,9 @@ app.use('/api/booking', bookingRoutes)
 
 app.use('/api/announcement', announcementRoutes)
 const PORT = process.env.PORT || 5000;
+
+//Timetable Routes
+app.use('/api/timetable', timetableRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`)

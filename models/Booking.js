@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
     user: {
@@ -12,7 +12,7 @@ const bookingSchema = new mongoose.Schema({
         email: String,
         role: {
             type: String,
-            enum: ['student', 'lecturer'],
+            enum: ['student', 'lecturer', 'admin'],
             required: true
         }
     },
@@ -36,7 +36,12 @@ const bookingSchema = new mongoose.Schema({
     purpose: {
         type: String,
         default: ''
+    },
+    status: {
+        type: String,
+        enum: ['Pending', 'Accepted', 'Declined'],
+        default: 'Pending'
     }
 }, { timestamps: true });
 
-module.exports =  mongoose.model('Booking', bookingSchema);
+module.exports = mongoose.model('Booking', bookingSchema);
