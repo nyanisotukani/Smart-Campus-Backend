@@ -1,6 +1,7 @@
 const Room = require('../models/Room');
 const Booking = require('../models/Booking');
 const User = require('../models/User');
+const mongoose = require('mongoose');
 
 // Room management
 const addRoom = async (req, res) => {
